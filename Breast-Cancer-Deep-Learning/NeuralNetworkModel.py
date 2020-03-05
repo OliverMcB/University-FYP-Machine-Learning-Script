@@ -1,22 +1,50 @@
 from tensorflow import keras
-from tensorflow.keras.callbacks import EarlyStopping
+
+import tensorflow_docs as tfdocs
+import tensorflow_docs.plots
+import tensorflow_docs.modeling
 
 import tensorflow as tf
-
 import tensorflow.keras.layers as layers
+
+import pandas as pd
 
 import BreastCancerData as bcd
 
-model = keras.Sequential([
-    layers.Dense(64, activation='relu', input_shape=[len(bcd.train_X.keys())]),
-    layers.Dense(64, activation='relu'),
-    layers.Dense(1)
-])
 
-optimizer = tf.keras.optimizers.RMSprop(0.001)
+def build_model():
+    network_model = keras.Sequential([
+        layers.Dense(64, activation='relu', input_shape=[len(bcd.train_dataset.keys())]),
+        layers.Dense(64, activation='relu'),
+        layers.Dense(1)
+    ])
 
-model.compile(optimizer=optimizer, loss='mse', metrics=['mae', 'mse'])
+    optimizer = tf.keras.optimizers.RMSprop(0.001)
 
-early_stopping_monitor = EarlyStopping(patience=3)
+    network_model.compile(optimizer=optimizer, loss='mse', metrics=['mae', 'mse'])
 
-history = model.fit(bcd.train_X, bcd.train_Y, validation_split=0.2, epochs=100, callbacks=[early_stopping_monitor])
+    return network_model
+
+
+model = build_model()
+
+model.summary()
+
+example_batch = bcd.normed_train_data[:10]
+example_result = model.predict(example_batch)
+print(example_result)
+
+EPOCHS = 1000
+
+history = model.fit(
+    bcd.normed_train_data,
+    bcd.train_labels,
+    epochs=EPOCHS,
+    validation_split=0.2,
+    verbose=0,
+    callbacks=[tfdocs.modeling.EpochDots()]
+)
+
+hist = pd.DataFrame(history.history)
+hist['epoch'] = history.epoch
+print(hist.tail())
