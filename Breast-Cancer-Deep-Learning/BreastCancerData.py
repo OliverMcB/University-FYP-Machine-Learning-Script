@@ -128,7 +128,7 @@ test_labels = test_dataset.pop("Overall Survival (Months)")
 normed_train_data = norm(train_dataset)
 normed_test_data = norm(test_dataset)
 
-print(normed_train_data.isna().sum())
+print(train_df.isna().sum())
 
 # train_X = train_dataset.drop(columns=['Overall Survival (Months)'])
 #

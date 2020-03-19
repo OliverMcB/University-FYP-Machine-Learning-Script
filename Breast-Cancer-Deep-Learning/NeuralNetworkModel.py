@@ -8,6 +8,8 @@ import tensorflow as tf
 import tensorflow.keras.layers as layers
 
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 import BreastCancerData as bcd
 
@@ -48,3 +50,15 @@ history = model.fit(
 hist = pd.DataFrame(history.history)
 hist['epoch'] = history.epoch
 print(hist.tail())
+
+plotter = tfdocs.plots.HistoryPlotter(smoothing_std=2)
+
+# sns.pairplot(hist, diag_kind="mae")
+# plt.ylim([0, 10])
+# plt.ylabel('MAE [Overall Survival (Months)]')
+
+sns.pairplot(hist, diag_kind="mse")
+# plt.ylim([0, 20])
+# plt.ylabel('MSE [Overall Survival (Months)^2]')
+
+plt.show()
