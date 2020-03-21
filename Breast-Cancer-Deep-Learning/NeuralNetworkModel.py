@@ -38,6 +38,8 @@ print(example_result)
 
 EPOCHS = 1000
 
+early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
+
 history = model.fit(
     bcd.normed_train_data,
     bcd.train_labels,
@@ -47,18 +49,44 @@ history = model.fit(
     callbacks=[tfdocs.modeling.EpochDots()]
 )
 
-hist = pd.DataFrame(history.history)
-hist['epoch'] = history.epoch
-print(hist.tail())
+# early_history = model.fit(
+#     bcd.normed_train_data,
+#     bcd.train_labels,
+#     epochs=EPOCHS,
+#     validation_split=0.2,
+#     verbose=0,
+#     callbacks=[early_stop, tfdocs.modeling.EpochDots()]
+# )
+
+# hist = pd.DataFrame(history.history)
+# hist['epoch'] = history.epoch
+# print(hist.tail())
 
 plotter = tfdocs.plots.HistoryPlotter(smoothing_std=2)
 
-# sns.pairplot(hist, diag_kind="mae")
-# plt.ylim([0, 10])
+# These show mea and mse in graph form
+
+# plotter.plot({'Basic': history}, metric="mean_absolute_error")
+# # plt.ylim([0, 10])
+# # plt.ylabel('MAE [Overall Survival (Months)]')
+# #
+# # plotter.plot({'Basic': history}, metric="mean_squared_error")
+# # plt.ylim([0, 20])
+# # plt.ylabel('MSE [Overall Survival (Months)^2]')
+
+
+# plotter.plot({'Early Stopping': early_history}, metric="mean_absolute_error")
+# plt.ylim([0, 10000])
 # plt.ylabel('MAE [Overall Survival (Months)]')
 
-sns.pairplot(hist, diag_kind="mse")
-# plt.ylim([0, 20])
-# plt.ylabel('MSE [Overall Survival (Months)^2]')
+test_predictions = model.predict(bcd.normed_test_data).flatten()
 
-plt.show()
+a = plt.axes(aspect='equal')
+plt.scatter(bcd.test_labels, test_predictions)
+plt.xlabel('True Values [Overall Survival (Months)]')
+plt.ylabel('Predictions [Overall Survival (Months)]')
+lims = [0, 400]
+plt.xlim(lims)
+plt.ylim(lims)
+_ = plt.plot(lims, lims)
+
