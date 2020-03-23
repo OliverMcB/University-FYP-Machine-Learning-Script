@@ -109,7 +109,7 @@ train_df = train_df.drop(columns=['Overall Survival Status', 'Patient\'s Vital S
 
 train_df = train_df.dropna()
 
-train_dataset = train_df.sample(frac=0.9, random_state=0)
+train_dataset = train_df.sample(frac=0.8, random_state=0)
 
 test_dataset = train_df.drop(train_dataset.index)
 
