@@ -28,41 +28,33 @@ def build_model():
     return network_model
 
 
-model = build_model()
+def initialise(model):
 
-model.summary()
+    epochs = 1000
 
-example_batch = bcd.normed_train_data[:10]
-example_result = model.predict(example_batch)
-print(example_result)
+    model.fit(
+        bcd.normed_train_data,
+        bcd.train_labels,
+        epochs=epochs,
+        validation_split=0.2,
+        verbose=0,
+        callbacks=[tfdocs.modeling.EpochDots()]
+    )
 
-EPOCHS = 1000
 
-early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
+def predict(model, data):
 
-history = model.fit(
-    bcd.normed_train_data,
-    bcd.train_labels,
-    epochs=EPOCHS,
-    validation_split=0.2,
-    verbose=0,
-    callbacks=[tfdocs.modeling.EpochDots()]
-)
+    normed_data = bcd.norm(data)
 
-# early_history = model.fit(
-#     bcd.normed_train_data,
-#     bcd.train_labels,
-#     epochs=EPOCHS,
-#     validation_split=0.2,
-#     verbose=0,
-#     callbacks=[early_stop, tfdocs.modeling.EpochDots()]
-# )
+    return model.predict(normed_data).flatten()
 
-# hist = pd.DataFrame(history.history)
-# hist['epoch'] = history.epoch
-# print(hist.tail())
 
-plotter = tfdocs.plots.HistoryPlotter(smoothing_std=2)
+def model_accuracy(model):
+
+    return model.predict(bcd.normed_test_data).flatten()
+
+
+# plotter = tfdocs.plots.HistoryPlotter(smoothing_std=2)
 
 # These show mea and mse in graph form
 
@@ -79,7 +71,11 @@ plotter = tfdocs.plots.HistoryPlotter(smoothing_std=2)
 # plt.ylim([0, 10000])
 # plt.ylabel('MAE [Overall Survival (Months)]')
 
-test_predictions = model.predict(bcd.normed_test_data).flatten()
+neural_network_model = build_model()
+
+initialise(neural_network_model)
+
+test_predictions = model_accuracy(neural_network_model)
 
 a = plt.axes(aspect='equal')
 plt.scatter(bcd.test_labels, test_predictions)
