@@ -11,24 +11,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import BreastCancerData as bcd
+import breastcancerdata as bcd
+
+model = keras.Sequential([
+    layers.Dense(64, activation='relu', input_shape=[len(bcd.train_dataset.keys())]),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(1)
+])
+
+optimizer = tf.keras.optimizers.RMSprop(0.001)
+
+model.compile(optimizer=optimizer, loss='mse', metrics=['mae', 'mse'])
 
 
-def build_model():
-    network_model = keras.Sequential([
-        layers.Dense(64, activation='relu', input_shape=[len(bcd.train_dataset.keys())]),
-        layers.Dense(64, activation='relu'),
-        layers.Dense(1)
-    ])
-
-    optimizer = tf.keras.optimizers.RMSprop(0.001)
-
-    network_model.compile(optimizer=optimizer, loss='mse', metrics=['mae', 'mse'])
-
-    return network_model
-
-
-def initialise(model):
+def initialise():
 
     epochs = 1000
 
@@ -42,14 +38,14 @@ def initialise(model):
     )
 
 
-def predict(model, data):
+def predict(data):
 
     normed_data = bcd.norm(data)
 
     return model.predict(normed_data).flatten()
 
 
-def model_accuracy(model):
+def model_accuracy():
 
     return model.predict(bcd.normed_test_data).flatten()
 
@@ -71,11 +67,10 @@ def model_accuracy(model):
 # plt.ylim([0, 10000])
 # plt.ylabel('MAE [Overall Survival (Months)]')
 
-neural_network_model = build_model()
 
-initialise(neural_network_model)
+initialise()
 
-test_predictions = model_accuracy(neural_network_model)
+test_predictions = model_accuracy()
 
 a = plt.axes(aspect='equal')
 plt.scatter(bcd.test_labels, test_predictions)

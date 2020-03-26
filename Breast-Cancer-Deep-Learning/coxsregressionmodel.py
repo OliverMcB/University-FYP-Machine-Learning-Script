@@ -1,6 +1,6 @@
 from lifelines import CoxPHFitter
 
-import BreastCancerData as bcd
+import breastcancerdata as bcd
 
 
 cph = CoxPHFitter()

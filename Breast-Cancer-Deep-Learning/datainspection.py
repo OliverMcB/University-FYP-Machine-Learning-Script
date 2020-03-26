@@ -1,4 +1,4 @@
-import BreastCancerData as bcd
+import breastcancerdata as bcd
 import seaborn as sns
 
 import matplotlib.pyplot as plt
