@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 
-from Predict import Predict
+from BreastCancerDeepLearning.Predict import Predict
 
 app = Flask(__name__)
 api = Api(app)
