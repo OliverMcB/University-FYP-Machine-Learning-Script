@@ -5,6 +5,8 @@ autograd-gamma==0.4.1
 certifi==2019.11.28
 cycler==0.10.0
 future==0.18.2
+flask==1.1.1
+flask-restful==0.3.8
 gast==0.2.2
 google-pasta==0.2.0
 grpcio==1.14.1
