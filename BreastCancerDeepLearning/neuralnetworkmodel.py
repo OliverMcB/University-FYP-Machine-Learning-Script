@@ -11,7 +11,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import breastcancerdata as bcd
+import BreastCancerDeepLearning.breastcancerdata as bcd
 
 model = keras.Sequential([
     layers.Dense(64, activation='relu', input_shape=[len(bcd.train_dataset.keys())]),

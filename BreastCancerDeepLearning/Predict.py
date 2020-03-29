@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 
-import neuralnetworkmodel as nnm
+import BreastCancerDeepLearning.neuralnetworkmodel as nnm
 
 
 class Predict(Resource):
