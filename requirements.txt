@@ -17,11 +17,12 @@ Keras-Applications==1.0.8
 Keras-Preprocessing==1.1.0
 kiwisolver==1.1.0
 lifelines==0.24.1
+libpython
 Markdown==3.1.1
 matplotlib==3.1.3
 mkl-fft==1.0.6
 mkl-random==1.0.1
-numpy==1.18.1
+numpy==1.18.2
 opt-einsum==3.1.0
 pandas==1.0.3
 protobuf==3.11.3
