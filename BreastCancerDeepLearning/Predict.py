@@ -8,7 +8,8 @@ import BreastCancerDeepLearning.neuralnetworkmodel as nnm
 
 class Predict(Resource):
 
-    def get(self):
+    def post(self):
+
         data = request.form["data"]
 
         data = pd.read_json(data)

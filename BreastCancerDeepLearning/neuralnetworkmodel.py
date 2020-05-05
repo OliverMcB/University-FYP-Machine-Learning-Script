@@ -40,6 +40,7 @@ def initialise():
 
 def predict(data):
 
+    data = bcd.convert_data_types(data)
     data = bcd.convert_data(data)
     data = bcd.remove_survival_months(data)
     data = bcd.remove_goals(data)

@@ -26,7 +26,7 @@ def convert_data(data):
     data['Chemotherapy'] = data['Chemotherapy'].map(lambda x: {'YES': 1,
                                                                'NO': 2}.get(x))
 
-    data['Pam50 + Claudin-low subtype'] = data['Pam50 + Claudin-low subtype'].map(lambda x: {'Basal': 1,
+    data['Pam50 Claudin-low subtype'] = data['Pam50 Claudin-low subtype'].map(lambda x: {'Basal': 1,
                                                                                              'claudin-low': 2,
                                                                                              'Her2': 3,
                                                                                              'LumA': 4,
@@ -98,6 +98,20 @@ def convert_data(data):
 
     data = data.drop(columns=['Study ID', 'Patient ID', 'Sample ID', 'Number of Samples Per Patient',
                               'Sample Type', 'Cancer Type'], errors='ignore')
+
+    return data
+
+
+def convert_data_types(data):
+
+    data["Age at Diagnosis"] = float(data["Age at Diagnosis"])
+    data["Cohort"] = int(data["Cohort"])
+    data["Neoplasm Histologic Grade"] = int(data["Neoplasm Histologic Grade"])
+    data["Lymph nodes examined positive"] = int(data["Lymph nodes examined positive"])
+    data["Mutation Count"] = int(data["Mutation Count"])
+    data["Nottingham prognostic index"] = float(data["Nottingham prognostic index"])
+    data["Tumor Size"] = float(data["Tumor Size"])
+    data["Tumor Stage"] = int(data["Tumor Stage"])
 
     return data
 
