@@ -21,7 +21,7 @@ model = keras.Sequential([
 
 optimizer = tf.keras.optimizers.RMSprop(0.001)
 
-model.compile(optimizer=optimizer, loss='mse', metrics=['mae', 'mse'])
+model.compile(optimizer=optimizer, loss='mse', metrics=['mae', 'mse', 'accuracy'])
 
 
 def initialise():
